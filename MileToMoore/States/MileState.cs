@@ -2,9 +2,9 @@
 
 namespace States
 {
-    public class MileState
+    public class MealyState
     {
-        public MileState(string str)
+        public MealyState(string str)
         {
             string[] transitions = str.Split(", ");
             foreach (string transition in transitions)
@@ -19,13 +19,13 @@ namespace States
                 }
                 else
                 {
-                    Transitions.Add(null);
+                    Transitions.Add(null!);
                 }
             }
         }
-        public MileState(MooreState mooreState, List<MooreState> mooreStates)
+        public MealyState(MooreState currentMooreState, List<MooreState> mooreStates)
         {
-            foreach (var t in mooreState.Transitions)
+            foreach (var t in currentMooreState.Transitions)
             {
                 if (t != -1)
                 {
@@ -35,12 +35,12 @@ namespace States
                 }
                 else
                 {
-                    Transitions.Add(null);
+                    Transitions.Add(null!);
                 }
             }
         }
         public List<Tuple<int, int>> Transitions { get; set; } = new();
-        public string ToString()
+        public override string ToString()
         {
             string result = string.Empty;
             foreach(var t in Transitions)

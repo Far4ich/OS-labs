@@ -30,7 +30,7 @@
         public int Signal { get; set; }
         public List<int> Transitions { get; set; } = new();
 
-        public string ToString()
+        public override string ToString()
         {
             string result = "Y" + Signal + " ";
             foreach (var t in Transitions)

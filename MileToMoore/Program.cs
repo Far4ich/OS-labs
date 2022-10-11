@@ -4,22 +4,22 @@ int k, m;
 var reader = new StreamReader("../../../input.txt");
 var writer = new StreamWriter("../../../output.txt");
 
-string[] input = reader.ReadLine().Split(" ");
+string[] input = reader.ReadLine()!.Split(" ");
 k = Convert.ToInt32(input[0]);
 m = Convert.ToInt32(input[1]);
 
-List<MileState> mileStates = new();
+List<MealyState> mealyStates = new();
 
 for(int i=0; i < k; i++)
 {
-    MileState mileState = new MileState(reader.ReadLine());
-    mileStates.Add(mileState);
+    MealyState mealyState = new MealyState(reader.ReadLine()!);
+    mealyStates.Add(mealyState);
 }
 
 List<MooreState> mooreStates = new();
 
-AddMooreStates(m, mileStates, mooreStates);
-FillTransitions(m, mileStates, mooreStates);
+AddMooreStates(mealyStates, mooreStates);
+FillTransitions(mealyStates, mooreStates);
 
 foreach (var state in mooreStates)
 {
@@ -29,13 +29,14 @@ foreach (var state in mooreStates)
 reader.Close();
 writer.Close();
 
-static void AddMooreStates(int m, List<MileState> mileStates, List<MooreState> mooreStates)
+static void AddMooreStates(List<MealyState> mealyStates, List<MooreState> mooreStates)
 {
-    for (int i = 0; i < mileStates.Count; i++)
+    int maxSignalId = GetMaxSignalId(mealyStates);
+    for (int i = 0; i < mealyStates.Count; i++)
     {
-        for (int j = 1; j <= m; j++)
+        for (int j = 1; j <= maxSignalId; j++)
         {
-            if(mileStates.Find(x => 
+            if(mealyStates.Find(x => 
                 x.Transitions.Exists(x => 
                     x != null && x.Item1 == i && x.Item2 == j)) != null)
             {
@@ -45,11 +46,22 @@ static void AddMooreStates(int m, List<MileState> mileStates, List<MooreState> m
     }
 }
 
-static void FillTransitions(int m, List<MileState> mileStates, List<MooreState> mooreStates)
+static int GetMaxSignalId(List<MealyState> mealyStates)
+{
+    int result = 0;
+    foreach(var state in mealyStates)
+    {
+        var maxSignal = state.Transitions.MaxBy(x => x.Item2);
+        result = maxSignal!.Item2 > result ? maxSignal.Item2 : result;
+    }
+    return result;
+}
+
+static void FillTransitions(List<MealyState> mealyStates, List<MooreState> mooreStates)
 {
     foreach (var mooreState in mooreStates)
     {
-        foreach(var trans in mileStates[mooreState.PreviousStateId].Transitions)
+        foreach(var trans in mealyStates[mooreState.PreviousStateId].Transitions)
         {
             if(trans != null)
             {
