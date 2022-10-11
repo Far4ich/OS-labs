@@ -1,7 +1,8 @@
-﻿3 2
-S2 Y2, S1 Y1
-S0 Y1, S2 Y3
-S1 Y2, S0 Y1
+﻿4 2
+S1 Y1, S2 Y2
+S0 Y2, S2 Y2
+S1 Y1, S3 Y1
+S0 Y1, S1 Y2
 
 4 3
 S0 Y2, -, S1 Y1
@@ -9,11 +10,12 @@ S3 Y3, S2 Y3, -
 S3 Y3, S0 Y1, S1 Y1
 -, -, S2 Y2
 
-4 2
-S1 Y1, S2 Y2
-S0 Y2, S2 Y2
-S1 Y1, S3 Y1
-S0 Y1, S1 Y2
+3 2
+S2 Y2, S1 Y1
+S0 Y1, S2 Y3
+S1 Y2, S0 Y1
+
+
 
 
 

@@ -51,8 +51,15 @@ static int GetMaxSignalId(List<MealyState> mealyStates)
     int result = 0;
     foreach(var state in mealyStates)
     {
-        var maxSignal = state.Transitions.MaxBy(x => x.Item2);
-        result = maxSignal!.Item2 > result ? maxSignal.Item2 : result;
+        int maxSignal = state.Transitions.Max(x =>
+            {
+                if (x != null)
+                {
+                    return x.Item2;
+                }
+                return 0;
+            });
+        result = maxSignal > result ? maxSignal : result;
     }
     return result;
 }
