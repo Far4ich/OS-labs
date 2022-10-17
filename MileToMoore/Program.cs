@@ -32,9 +32,10 @@ writer.Close();
 static void AddMooreStates(List<MealyState> mealyStates, List<MooreState> mooreStates)
 {
     int maxSignalId = GetMaxSignalId(mealyStates);
+    int minSignalId = GetMinSignalId(mealyStates);
     for (int i = 0; i < mealyStates.Count; i++)
     {
-        for (int j = 1; j <= maxSignalId; j++)
+        for (int j = minSignalId; j <= maxSignalId; j++)
         {
             if(mealyStates.Find(x => 
                 x.Transitions.Exists(x => 
@@ -60,6 +61,24 @@ static int GetMaxSignalId(List<MealyState> mealyStates)
                 return 0;
             });
         result = maxSignal > result ? maxSignal : result;
+    }
+    return result;
+}
+
+static int GetMinSignalId(List<MealyState> mealyStates)
+{
+    int result = 0;
+    foreach (var state in mealyStates)
+    {
+        int minSignal = state.Transitions.Min(x =>
+        {
+            if (x != null)
+            {
+                return x.Item2;
+            }
+            return 0;
+        });
+        result = minSignal < result ? minSignal : result;
     }
     return result;
 }
