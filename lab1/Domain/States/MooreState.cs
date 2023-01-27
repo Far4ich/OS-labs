@@ -2,11 +2,16 @@
 {
     public class MooreState
     {
+        public int PreviousStateId { get; set; }
+        public int Signal { get; set; }
+        public List<int> Transitions { get; set; } = new();
+
         public MooreState(int id, int signal)
         {
             PreviousStateId = id;
             Signal = signal;
         }
+
         public MooreState(string str)
         {
             string[] parseStr = str.Split(" ");
@@ -25,10 +30,6 @@
                 }
             }
         }
-
-        public int PreviousStateId { get; set; }
-        public int Signal { get; set; }
-        public List<int> Transitions { get; set; } = new();
 
         public override string ToString()
         {
